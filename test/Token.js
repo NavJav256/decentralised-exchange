@@ -7,7 +7,7 @@ const convertToEther = (n) => {
 
 describe('Token contract', () => {
 
-    let token, accounts, deployer, receiver
+    let token, accounts, deployer, receiver, exchange
 
     beforeEach(async () => {
         const Token = await ethers.getContractFactory('Token')
@@ -15,6 +15,7 @@ describe('Token contract', () => {
         accounts = await ethers.getSigners()
         deployer = accounts[0]
         receiver = accounts[1]
+        exchange = accounts[2]
     })
 
     describe('Deployment', () => {
@@ -61,7 +62,7 @@ describe('Token contract', () => {
                 expect(await token.balanceOf(receiver.address)).to.equal(amount)
             })
     
-            it('Emits Transfer event', async() => {
+            it('Emits a Transfer event', async() => {
                 const events = result.events[0]
                 expect(events.event).to.equal('Transfer')
     
@@ -81,7 +82,40 @@ describe('Token contract', () => {
             })
 
         })
-        
+
+    })
+
+    describe('Approving Tokens', () => {
+
+        let amount, transaction, result
+
+        beforeEach(async () => {
+            amount = convertToEther(100)
+            transaction = await token.connect(deployer).approve(exchange.address, amount)
+            result = await transaction.wait()
+        })
+
+        describe('Succes', () => {
+
+            it('allocates an allowance for spending tokens', async () => {
+                expect(await token.allowance(deployer.address, exchange.address)).to.equal(amount)
+            })
+
+            it('Emits an Approval event', async() => {
+                const events = result.events[0]
+                expect(events.event).to.equal('Approval')
+    
+                const args = events.args
+                expect(args._owner).to.equal(deployer.address)
+                expect(args._spender).to.equal(exchange.address)
+                expect(args._value).to.equal(amount)
+            })
+
+        })
+
+        describe('Failure', () => {
+            
+        })
 
     })
 
