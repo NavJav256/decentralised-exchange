@@ -5,7 +5,7 @@ import config from '../config.json'
 
 import Navbar from './Navbar'
 import Markets from './Markets'
-// import Balance from './Balance'
+import Balance from './Balance'
 // import Order from './Order'
 // import PriceChart from './PriceChart'
 // import Transactions from './Transactions'
@@ -18,7 +18,8 @@ import {
   loadProvider, 
   loadAccount,
   loadTokens,
-  loadExchange 
+  loadExchange,
+  subscribeToEvents 
 } from '../store/interactions'
 
 const App = () => {
@@ -39,11 +40,12 @@ const App = () => {
 
     const navT = config[chainId].navT
     const mETH = config[chainId].mETH
-    // const mDAI = config[chainId].mDAI
     await loadTokens(provider, [navT.address, mETH.address], dispatch)
 
     const ex = config[chainId].exchange
-    await loadExchange(provider, ex.address, dispatch)
+    const exchange = await loadExchange(provider, ex.address, dispatch)
+
+    subscribeToEvents(exchange, dispatch )
   }
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const App = () => {
 
           <Markets />
 
-          {/* Balance */}
+          <Balance />
 
           {/* Order */}
 
