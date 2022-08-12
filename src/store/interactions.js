@@ -39,7 +39,7 @@ export const loadTokens = async (provider, addresses, dispatch) => {
     return symbol
 }
 
-export const loadExchange = async(provider, address, dispatch) => {
+export const loadExchange = async (provider, address, dispatch) => {
     const exchange = new ethers.Contract(address, EXCHANGE_ABI, provider)
     dispatch({type: 'EXCHANGE_LOADED', exchange})
     return exchange
@@ -60,7 +60,7 @@ export const subscribeToEvents = (exchange , dispatch) => {
     })
 }
 
-export const loadBalances = async(exchange, tokens, account, dispatch) => {
+export const loadBalances = async (exchange, tokens, account, dispatch) => {
     let balance = ethers.utils.formatEther(await tokens[0].balanceOf(account))
     dispatch({type: 'TOKEN_BALANCE_LOADED_1', balance})
 
@@ -72,9 +72,28 @@ export const loadBalances = async(exchange, tokens, account, dispatch) => {
 
     balance = ethers.utils.formatEther(await exchange.balanceOf(tokens[1].address, account))
     dispatch({type: 'EXCHANGE_TOKEN_BALANCE_LOADED_2', balance})
- }
+}
 
-export const transferTokens = async(provider, exchange, transferType, token, amount, dispatch) => {
+export const loadAllOrders = async (provider, exchange, dispatch) => {
+    const block = await provider.getBlockNumber()
+
+    const cancelStream = await exchange.queryFilter('Cancel', 0, block)
+    const cancelledOrders = cancelStream.map(event => event.args)
+
+    dispatch({type: 'CANCELLED_ORDERS_LOADED', cancelledOrders})
+
+    const tradeStream = await exchange.queryFilter('Trade', 0, block)
+    const filledOrders = tradeStream.map(event => event.args)
+
+    dispatch({type: 'FILLED_ORDERS_LOADED', filledOrders})
+
+    const orderStream = await exchange.queryFilter('Order', 0, block)
+    const allOrders = orderStream.map(event => event.args)
+
+    dispatch({type: 'ALL_ORDERS_LOADED', allOrders})
+}
+
+export const transferTokens = async (provider, exchange, transferType, token, amount, dispatch) => {
     let transaction
 
     dispatch({type: 'TRANSFER_REQUEST'})
@@ -95,7 +114,7 @@ export const transferTokens = async(provider, exchange, transferType, token, amo
     }
  }
 
-export const makeBuyOrder = async(provider, exchange, tokens, order, dispatch) => {
+export const makeBuyOrder = async (provider, exchange, tokens, order, dispatch) => {
     const tokenGet = tokens[0].address
     const amountGet = ethers.utils.parseEther((order.amount).toString())
     const tokenGive = tokens[1].address
@@ -112,7 +131,7 @@ export const makeBuyOrder = async(provider, exchange, tokens, order, dispatch) =
     }
 }
 
-export const makeSellOrder = async(provider, exchange, tokens, order, dispatch) => {
+export const makeSellOrder = async (provider, exchange, tokens, order, dispatch) => {
     const tokenGet = tokens[1].address
     const amountGet = ethers.utils.parseEther((order.amount * order.price).toString())
     const tokenGive = tokens[0].address

@@ -10,7 +10,7 @@ import Order from './Order'
 // import PriceChart from './PriceChart'
 // import Transactions from './Transactions'
 // import Trades from './Trades'
-// import OrderBook from './OrderBook'
+import OrderBook from './OrderBook'
 // import Alert from './Alert'
 
 import { 
@@ -19,7 +19,8 @@ import {
   loadAccount,
   loadTokens,
   loadExchange,
-  subscribeToEvents 
+  subscribeToEvents, 
+  loadAllOrders
 } from '../store/interactions'
 
 const App = () => {
@@ -44,6 +45,8 @@ const App = () => {
 
     const ex = config[chainId].exchange
     const exchange = await loadExchange(provider, ex.address, dispatch)
+
+    loadAllOrders(provider, exchange, dispatch)
 
     subscribeToEvents(exchange, dispatch )
   }
@@ -77,7 +80,7 @@ const App = () => {
 
           {/* Trades */}
 
-          {/* OrderBook */}
+          <OrderBook />
 
         </section>
 
