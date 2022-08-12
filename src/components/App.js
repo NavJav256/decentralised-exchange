@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 
 import config from '../config.json'
 
+import Navbar from './Navbar'
+
 import { 
   loadNetwork,
   loadProvider, 
@@ -18,7 +20,14 @@ const App = () => {
   const loadBlockchainData = async () => {
     const provider = loadProvider(dispatch)
     const chainId = await loadNetwork(provider, dispatch)
-    await loadAccount(provider, dispatch)
+
+    window.ethereum.on('chainChanged', () => {
+      window.location.reload()
+    })
+    
+    window.ethereum.on('accountsChanged', async () => {
+      await loadAccount(provider, dispatch) 
+    })
 
     const navT = config[chainId].navT
     const mETH = config[chainId].mETH
@@ -36,9 +45,10 @@ const App = () => {
   return (
     <div>
 
-      {/* Navbar */}
+      <Navbar/>
 
       <main className='exchange grid'>
+
         <section className='exchange__section--left grid'>
 
           {/* Markets */}
@@ -48,6 +58,7 @@ const App = () => {
           {/* Order */}
 
         </section>
+
         <section className='exchange__section--right grid'>
 
           {/* PriceChart */}
@@ -59,6 +70,7 @@ const App = () => {
           {/* OrderBook */}
 
         </section>
+
       </main>
 
       {/* Alert */}

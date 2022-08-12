@@ -6,7 +6,7 @@ export const provider = (state = {}, action) => {
         case 'NETWORK_LOADED':
             return {...state, chainId: action.chainId}
 
-        case 'ACOUNT_LOADED':
+        case 'ACCOUNT_LOADED':
             return {...state, account: action.account}
 
         case 'ETHER_BALANCE_LOADED':
@@ -45,5 +45,3 @@ export const exchange = (state = {loaded: false, contract: {}}, action) => {
             return state
     }
 }
-
- 
