@@ -92,9 +92,7 @@ export const exchange = (state = DEFAULT_EXCHANGE_STATE, action) => {
             return {...state, transaction: {transactionType: 'New Order', isPending: true, isSuccessful: false}}
 
         case 'NEW_ORDER_SUCCESS':
-            console.log(state.allOrders.data)
             index = state.allOrders.data.findIndex(order => order._id === action.order._id)
-            console.log(index)
 
             if (index === -1) data = [...state.allOrders.data, action.order]
             else data = state.allOrders.data
