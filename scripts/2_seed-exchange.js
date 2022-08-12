@@ -104,19 +104,19 @@ async function main() {
 
     //User 1 makes 10 random orders
     for(let i=1; i<=10; i++) {
-        var randNumOne = Math.floor(Math.random() * 10) + 1 
-        var randNumTwo = Math.floor(Math.random() * 10) + 1
-        transaction = await exchange.connect(user1).makeOrder(mETH.address, convertToEther(randNumOne * i), navT.address, convertToEther(randNumTwo * i / 2))
-
+        // var randNumOne = Math.floor(Math.random() * 10) + 1 
+        // var randNumTwo = Math.floor(Math.random() * 10) + 1
+        // transaction = await exchange.connect(user1).makeOrder(mETH.address, convertToEther(randNumOne * i), navT.address, convertToEther(Math.floor(randNumTwo * i / 2)))
+        transaction = await exchange.connect(user1).makeOrder(mETH.address, convertToEther(10*i), navT.address, convertToEther(10))
         await wait(1)
     }
 
     //User 2 makes 10 random orders
     for(let i=1; i<=10; i++) {
-        var randNumOne = Math.floor(Math.random() * 10) + 1 
-        var randNumTwo = Math.floor(Math.random() * 10) + 1
-        transaction = await exchange.connect(user2).makeOrder(navT.address, convertToEther(randNumOne * i / 2), mETH.address, convertToEther(randNumTwo * i))
-
+        // var randNumOne = Math.floor(Math.random() * 10) + 1 
+        // var randNumTwo = Math.floor(Math.random() * 10) + 1
+        // transaction = await exchange.connect(user2).makeOrder(navT.address, convertToEther(Math.floor(randNumOne * i / 2)), mETH.address, convertToEther(randNumTwo * i))
+        transaction = await exchange.connect(user2).makeOrder(navT.address, convertToEther(10), mETH.address, convertToEther(10*i))
         await wait(1)
     }
 

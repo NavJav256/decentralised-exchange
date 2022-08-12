@@ -81,7 +81,7 @@ const Balance = () => {
                 </div>
             </div>
 
-      {/* Deposit/Withdraw Component 1 (navT) */}
+            {/* Deposit/Withdraw Component 1 (navT) */}
 
             <div className='exchange__transfers--form'>
                 <div className='flex-between'>
@@ -121,7 +121,7 @@ const Balance = () => {
 
             <hr />
 
-      {/* Deposit/Withdraw Component 2 (mETH) */}
+            {/* Deposit/Withdraw Component 2 (mETH) */}
 
             <div className='exchange__transfers--form'>
                 <div className='flex-between'>
@@ -144,7 +144,7 @@ const Balance = () => {
                 </div>
 
                 <form onSubmit={isDeposit ? (e) => depositHandler(e, tokens[1]) : (e) => withdrawHandler(e, tokens[1])}>
-                    <label htmlFor="token1"></label>
+                    <label htmlFor="token1">{symbols && symbols[1]} Amount</label>
                     <input
                         type="text"
                         id='token1'

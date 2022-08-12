@@ -6,7 +6,7 @@ import config from '../config.json'
 import Navbar from './Navbar'
 import Markets from './Markets'
 import Balance from './Balance'
-// import Order from './Order'
+import Order from './Order'
 // import PriceChart from './PriceChart'
 // import Transactions from './Transactions'
 // import Trades from './Trades'
@@ -65,7 +65,7 @@ const App = () => {
 
           <Balance />
 
-          {/* Order */}
+          <Order /> 
 
         </section>
 
