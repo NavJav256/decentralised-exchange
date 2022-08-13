@@ -97,20 +97,20 @@ export const orderBookSelector = createSelector(openOrders, tokens, (orders, tok
     return orders
 })
 
-const buildGraphData = (orders) => {
-    orders = groupBy(orders, (o) => moment.unix(o._timestamp).startOf('hour').format())
+const buildGraphData = (orders, resolution) => {
+    orders = groupBy(orders, (o) => moment.unix(o._timestamp).startOf(resolution).format())
 
-    const hours = Object.keys(orders)
-    const graphData = hours.map((hour) => {
+    const res = Object.keys(orders)
+    const graphData = res.map((r) => {
 
-        const group = orders[hour]
+        const group = orders[r]
         const open = group[0]
         const high = maxBy(group, 'tokenPrice')
         const low = minBy(group, 'tokenPrice')
         const close = group[group.length - 1] 
 
          return({
-            x: new Date(hour),
+            x: new Date(r),
             y: [open.tokenPrice, high.tokenPrice, low.tokenPrice, close.tokenPrice]
          })
     })
@@ -133,11 +133,13 @@ export const priceChartSelector = createSelector(filledOrders, tokens, (orders, 
     const penultimatePrice = get(penultimate, 'tokenPrice', 0)
     const ultimatePrice = get(ultimate, 'tokenPrice', 0)
 
+    let resolution = 'hour'
+
     return({
         ultimatePrice,
         priceChange: ultimatePrice >= penultimatePrice ? '+' : '-', 
         series: [{
-            data: buildGraphData(orders)
+            data: buildGraphData(orders, resolution)
         }]
     })
 })
