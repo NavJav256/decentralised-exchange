@@ -11,7 +11,7 @@ import PriceChart from './PriceChart'
 import Transactions from './Transactions'
 import Trades from './Trades'
 import OrderBook from './OrderBook'
-// import Alert from './Alert'
+import Alert from './Alert'
 
 import { 
   loadNetwork,
@@ -86,7 +86,7 @@ const App = () => {
 
       </main>
 
-      {/* Alert */}
+      <Alert />
 
     </div>
   )
