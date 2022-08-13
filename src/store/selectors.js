@@ -134,7 +134,7 @@ export const priceChartSelector = createSelector(filledOrders, tokens, (orders, 
     const penultimatePrice = get(penultimate, 'tokenPrice', 0)
     const ultimatePrice = get(ultimate, 'tokenPrice', 0)
 
-    let resolution = 'hour'
+    let resolution = 'minute'
 
     return({
         ultimatePrice,
