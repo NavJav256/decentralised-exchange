@@ -7,7 +7,7 @@ import Navbar from './Navbar'
 import Markets from './Markets'
 import Balance from './Balance'
 import Order from './Order'
-// import PriceChart from './PriceChart'
+import PriceChart from './PriceChart'
 // import Transactions from './Transactions'
 // import Trades from './Trades'
 import OrderBook from './OrderBook'
@@ -74,7 +74,7 @@ const App = () => {
 
         <section className='exchange__section--right grid'>
 
-          {/* PriceChart */}
+          <PriceChart />
 
           {/* Transactions */}
 
