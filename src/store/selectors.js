@@ -143,3 +143,43 @@ export const priceChartSelector = createSelector(filledOrders, tokens, (orders, 
         }]
     })
 })
+
+const tokenPriceClass = (tokenPrice, orderId, prevOrder) => {
+    if (prevOrder._id === orderId) return GREEN
+    return prevOrder.tokenPrice <= tokenPrice ? GREEN : RED
+}
+
+const decorateTrade = (order, prevOrder) => {
+    return ({
+        ...order,
+        tokenPriceClass: tokenPriceClass(order.tokenPrice, order._id, prevOrder)
+    })
+}
+
+const decorateTrades = (orders, tokens) => {
+
+    let previousOrder = orders[0]
+
+    return (
+        orders.map((order) => {
+            order = decorateOrder(order, tokens)
+            order = decorateTrade(order, previousOrder)
+            previousOrder = order 
+            return order
+        })
+    )
+}
+
+export const tradesSelector = createSelector(filledOrders, tokens, (orders, tokens) => {
+
+    if(!tokens[0] || !tokens[1]) return 
+
+    orders = orders.filter((o) => o._tokenGet === tokens[0].address || o._tokenGet === tokens[1].address)
+    orders = orders.filter((o) => o._tokenGive === tokens[0].address || o._tokenGive === tokens[1].address)
+
+    orders = orders.sort((a,b) => a._timestamp - b._timestamp) //ascending
+    orders = decorateTrades(orders, tokens)
+    orders = orders.sort((a,b) => b._timestamp - a._timestamp) //descending
+
+    return orders
+})

@@ -9,7 +9,7 @@ import Balance from './Balance'
 import Order from './Order'
 import PriceChart from './PriceChart'
 // import Transactions from './Transactions'
-// import Trades from './Trades'
+import Trades from './Trades'
 import OrderBook from './OrderBook'
 // import Alert from './Alert'
 
@@ -78,7 +78,7 @@ const App = () => {
 
           {/* Transactions */}
 
-          {/* Trades */}
+          <Trades />
 
           <OrderBook />
 
