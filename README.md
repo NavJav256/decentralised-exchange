@@ -18,6 +18,9 @@ Step 3:
 Run hardhat run --network localhost ./scripts/1_deploy.js to deploy the contracts
 
 Step 4:
+Update config.json to include the addresses the contracts were deployed to in the '31337' key
+
+Step 5:
 Run hardhat run --network localhost ./scripts/2_seed-exchange.js to fill the exchange with data
 
 To run on the kovan test network:
@@ -33,6 +36,9 @@ Step 3:
 Run hardhat run --network kovan ./scripts/1_deploy.js to deploy the contracts
 
 Step 4:
+Update config.json to include the addresses the contracts were deployed to in the '42' key
+
+Step 5:
 Run hardhat run --network kovan ./scripts/2_seed-exchange.js to fill the exchange with data
 
 To run tests use hardhat test
