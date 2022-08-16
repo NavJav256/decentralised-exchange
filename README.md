@@ -25,7 +25,7 @@ Step 1:
 Create an account on infura
 
 Step 2:
-Create a file called .env and fill with
+Create a file called .env and fill with:
 INFURA_API_KEY="PUT_YOUR_INFURA_API_KEY_HERE"
 PRIVATE_KEYS="ACCOUNT_ADDRESS_TO_DEPLOY_THE_CONTRACTS,SECOND_USER_ACCOUNT_ADDRESS"
 
